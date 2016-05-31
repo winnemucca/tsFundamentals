@@ -1,7 +1,13 @@
+import { HeadChef } from './Classes';
+import { Category} from './enums';
+import { Dish, CustomerLogger,Employee, Chef, Waiter } from './interfaces';
+import { Schedule} from './enums2';
+
+
 function GetFoodItems() {
-    let dishes: any[] = [
+    let dishes = [
         { id: 1, type: Category.Poultry, price: 7, name: 'Basque Chicken', available: true },
-        { id: 2, type: Category.Beef, price: 9, name: 'Chorizo', available: true },
+        { id: 2, type: Category.Beef, price: 9, name: 'Chorizo', available: true  },
         { id: 3, type: Category.Seafood, price: 22, name: 'Halibut', available: false },
         { id: 4, type: Category.Seafood, price: 20, name: "Cod with Wine Sauce", available: false}
     ]
@@ -45,9 +51,8 @@ function LogDishTitles(types: string[]): void {
     }
 }
 
-enum Category { Beef, Chicken, Poultry, Seafood, Vegetarian };
 
-function  GetDishesById(id :number):string {
+function  GetDishesById(id :number):Dish {
     const allDishes = GetFoodItems();
     return allDishes.filter(dish => dish.id === id)[0];
 }
@@ -109,3 +114,22 @@ myDishes.forEach(title => console.log(title));
 // x = 5;
 // let IdGenerator: (chars: string, nums: number) => string;
 // IdGenerator = CreateCustomerID;
+
+let myFavoriteDish: Dish = {
+    id: 2,
+    type: Category.Poultry,
+    name: "Basque Chicken",
+    available: true,
+    price: 10,
+    special: (reason: string) => console.log('Served on Mondays ' + reason)
+
+};
+
+//***** playing around with interfaces ******//
+
+function PrintReview(dish: Dish): void{
+    console.log(dish.name + 'for' + dish.special )
+}
+
+PrintReview(myFavoriteDish);
+myFavoriteDish.special("excellent choice");

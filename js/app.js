@@ -1,14 +1,16 @@
+"use strict";
+var enums_1 = require('./enums');
 function GetFoodItems() {
     var dishes = [
-        { id: 1, type: Category.Poultry, price: 7, name: 'Basque Chicken', available: true },
-        { id: 2, type: Category.Beef, price: 9, name: 'Chorizo', available: true },
-        { id: 3, type: Category.Seafood, price: 22, name: 'Halibut', available: false },
-        { id: 4, type: Category.Seafood, price: 20, name: "Cod with Wine Sauce", available: false }
+        { id: 1, type: enums_1.Category.Poultry, price: 7, name: 'Basque Chicken', available: true },
+        { id: 2, type: enums_1.Category.Beef, price: 9, name: 'Chorizo', available: true },
+        { id: 3, type: enums_1.Category.Seafood, price: 22, name: 'Halibut', available: false },
+        { id: 4, type: enums_1.Category.Seafood, price: 20, name: "Cod with Wine Sauce", available: false }
     ];
     return dishes;
 }
 function GetFoodDishesByCategory(categoryFilter) {
-    console.log("getting dishes in the category" + Category[categoryFilter]);
+    console.log("getting dishes in the category" + enums_1.Category[categoryFilter]);
     var allDishes = GetFoodItems();
     var filteredTitles = [];
     for (var _i = 0, allDishes_1 = allDishes; _i < allDishes_1.length; _i++) {
@@ -38,15 +40,6 @@ function LogDishTitles(types) {
         console.log(" here is the type", type);
     }
 }
-var Category;
-(function (Category) {
-    Category[Category["Beef"] = 0] = "Beef";
-    Category[Category["Chicken"] = 1] = "Chicken";
-    Category[Category["Poultry"] = 2] = "Poultry";
-    Category[Category["Seafood"] = 3] = "Seafood";
-    Category[Category["Vegetarian"] = 4] = "Vegetarian";
-})(Category || (Category = {}));
-;
 function GetDishesById(id) {
     var allDishes = GetFoodItems();
     return allDishes.filter(function (dish) { return dish.id === id; })[0];
@@ -65,7 +58,7 @@ function CreateCustomer(name, age, city) {
 }
 CreateCustomer("Michelle", 6);
 // meatDishes
-var meatDishes = GetFoodDishesByCategory(Category.Beef);
+var meatDishes = GetFoodDishesByCategory(enums_1.Category.Beef);
 LogDishTitles(meatDishes);
 function PurchasedFoodItems(customer) {
     var dishIDs = [];
@@ -97,5 +90,19 @@ myDishes.forEach(function (title) { return console.log(title); });
 // let x: number;
 // x = 5;
 // let IdGenerator: (chars: string, nums: number) => string;
-// IdGenerator = CreateCustomerID; 
+// IdGenerator = CreateCustomerID;
+var myFavoriteDish = {
+    id: 2,
+    type: enums_1.Category.Poultry,
+    name: "Basque Chicken",
+    available: true,
+    price: 10,
+    special: function (reason) { return console.log('Served on Mondays ' + reason); }
+};
+//***** playing around with interfaces ******//
+function PrintReview(dish) {
+    console.log(dish.name + 'for' + dish.special);
+}
+PrintReview(myFavoriteDish);
+myFavoriteDish.special("excellent choice");
 //# sourceMappingURL=app.js.map
