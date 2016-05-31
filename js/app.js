@@ -1,8 +1,9 @@
 function GetFoodItems() {
     var dishes = [
-        { type: Category.Poultry, price: 7, name: 'Basque Chicken' },
-        { type: Category.Beef, price: 9, name: 'Chorizo' },
-        { type: Category.Seafood, price: 22, name: 'Halibut' }
+        { id: 1, type: Category.Poultry, price: 7, name: 'Basque Chicken', available: true },
+        { id: 2, type: Category.Beef, price: 9, name: 'Chorizo', available: true },
+        { id: 3, type: Category.Seafood, price: 22, name: 'Halibut', available: false },
+        { id: 4, type: Category.Seafood, price: 20, name: "Cod with Wine Sauce", available: false }
     ];
     return dishes;
 }
@@ -18,6 +19,7 @@ function GetFoodDishesByCategory(categoryFilter) {
     }
     return filteredTitles;
 }
+// adding a default.   Allows call without paramters;
 function LogMostAffordable(dishes) {
     var numberOfDishes = dishes.length;
     var mostAffordable = '';
@@ -45,9 +47,55 @@ var Category;
     Category[Category["Vegetarian"] = 4] = "Vegetarian";
 })(Category || (Category = {}));
 ;
+function GetDishesById(id) {
+    var allDishes = GetFoodItems();
+    return allDishes.filter(function (dish) { return dish.id === id; })[0];
+}
+function CreateCustomerID(name, id) {
+    return name + id;
+}
+function CreateCustomer(name, age, city) {
+    console.log('creating customer ' + name);
+    if (age) {
+        console.log('age: ' + age);
+    }
+    if (city) {
+        console.log('City' + city);
+    }
+}
+CreateCustomer("Michelle", 6);
 // meatDishes
 var meatDishes = GetFoodDishesByCategory(Category.Beef);
 LogDishTitles(meatDishes);
+function PurchasedFoodItems(customer) {
+    var dishIDs = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        dishIDs[_i - 1] = arguments[_i];
+    }
+    console.log("purchasing meals for customer: " + customer);
+    var mealsPurchased = [];
+    for (var _a = 0, dishIDs_1 = dishIDs; _a < dishIDs_1.length; _a++) {
+        var id = dishIDs_1[_a];
+        var dish = GetDishesById(id);
+        if (dish.available) {
+            mealsPurchased.push(dish.name);
+        }
+    }
+    return mealsPurchased;
+}
+// ************//
+var myDishes = PurchasedFoodItems('Thor', 1, 2, 3);
+myDishes.forEach(function (title) { return console.log(title); });
+//**************//
 // const allDishes = GetFoodItems();
-// LogMostAffordable(allDishes); 
+// LogMostAffordable(allDishes);
+// *********************
+// const seafoodDishes = GetFoodDishesByCategory(Category.Seafood);
+// seafoodDishes.forEach((val, idx, arr)=> console.log(++idx + ' - ' + val));
+// let myID: string = CreateCustomerID("Daniel", 15);
+// console.log(myID);
+// let x: number;
+// x = 5;
+// let IdGenerator: (chars: string, nums: number) => string;
+// IdGenerator = CreateCustomerID; 
 //# sourceMappingURL=app.js.map

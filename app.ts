@@ -1,8 +1,9 @@
 function GetFoodItems() {
     let dishes: any[] = [
-        { type: Category.Poultry, price: 7, name: 'Basque Chicken' },
-        { type: Category.Beef, price: 9, name: 'Chorizo' },
-        { type: Category.Seafood, price: 22, name: 'Halibut'}
+        { id: 1, type: Category.Poultry, price: 7, name: 'Basque Chicken', available: true },
+        { id: 2, type: Category.Beef, price: 9, name: 'Chorizo', available: true },
+        { id: 3, type: Category.Seafood, price: 22, name: 'Halibut', available: false },
+        { id: 4, type: Category.Seafood, price: 20, name: "Cod with Wine Sauce", available: false}
     ]
 
     return dishes;
@@ -22,8 +23,8 @@ function GetFoodDishesByCategory(categoryFilter: Category): Array<string> {
 
     return filteredTitles;
 }
-
-function LogMostAffordable(dishes):void {
+// adding a default.   Allows call without paramters;
+function LogMostAffordable(dishes ):void {
     let numberOfDishes: number = dishes.length;
     let mostAffordable: string = '';
 
@@ -46,9 +47,65 @@ function LogDishTitles(types: string[]): void {
 
 enum Category { Beef, Chicken, Poultry, Seafood, Vegetarian };
 
+function  GetDishesById(id :number):string {
+    const allDishes = GetFoodItems();
+    return allDishes.filter(dish => dish.id === id)[0];
+}
+
+function CreateCustomerID(name: string, id: number): string {
+    return name + id;
+}
+
+function CreateCustomer(name: string, age?: number, city?: string): void {
+    console.log('creating customer ' + name);
+
+    if (age) {
+        console.log('age: ' + age);
+    }
+    if (city) {
+        console.log('City' + city);
+    }
+}
+CreateCustomer("Michelle",6);
 // meatDishes
 const meatDishes = GetFoodDishesByCategory(Category.Beef);
 LogDishTitles(meatDishes);
 
+function PurchasedFoodItems(customer, ...dishIDs) :any{
+    console.log("purchasing meals for customer: " + customer);
+
+    let mealsPurchased: string[] = [];
+
+    for (let id of dishIDs) {
+        let dish:any = GetDishesById(id);
+        if (dish.available) {
+            mealsPurchased.push(dish.name);
+        }
+    }
+
+    return mealsPurchased;
+}
+
+// ************//
+
+let myDishes: any[] = PurchasedFoodItems('Thor',1,2,3);
+myDishes.forEach(title => console.log(title));
+
+//**************//
+
+
 // const allDishes = GetFoodItems();
 // LogMostAffordable(allDishes);
+
+// *********************
+
+// const seafoodDishes = GetFoodDishesByCategory(Category.Seafood);
+// seafoodDishes.forEach((val, idx, arr)=> console.log(++idx + ' - ' + val));
+
+// let myID: string = CreateCustomerID("Daniel", 15);
+// console.log(myID);
+
+// let x: number;
+// x = 5;
+// let IdGenerator: (chars: string, nums: number) => string;
+// IdGenerator = CreateCustomerID;
